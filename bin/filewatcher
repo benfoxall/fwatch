@@ -1,3 +1,55 @@
 #!/usr/bin/env ruby
 
-puts ARGV
+# This script is slightly cobbled together and not tested properly
+
+if ARGV.size < 2
+  puts "Usage : #{$0} [-s SIGNAL] FILE COMMAND"
+  exit -1
+end
+
+# gotcha - this uses the installed gem
+require 'rubygems'
+require 'filewatcher'
+
+
+@signal = ARGV[0] == '-s' ?  "#{ARGV.shift} #{ARGV.shift}" : ''
+
+file = ARGV.shift
+cmd = ARGV.join ' '
+
+
+def tell message
+  puts "› \033[36m#{message}\033[0m"
+end
+
+def kill
+  unless @pid.nil?
+    tell "killing: #{@pid}"
+    `kill #{@signal} #{@pid}`
+  end
+end
+
+
+watcher = FileWatcher.new file do
+  kill
+  
+  @pid = fork do
+    tell "running: #{cmd}"
+    exec cmd
+  end
+  
+end
+
+# touch the file, so that the command runs
+`touch #{file}`
+
+loop do
+  begin
+    sleep 1
+  rescue Interrupt => e
+    kill
+    puts 
+    break
+  end
+  watcher.process
+end
