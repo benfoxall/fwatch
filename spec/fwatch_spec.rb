@@ -1,4 +1,4 @@
-require 'lib/filewatcher.rb'
+require 'lib/fwatch.rb'
 
 describe FWatch do
   
