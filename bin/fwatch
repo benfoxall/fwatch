@@ -9,7 +9,7 @@ end
 
 # gotcha - this uses the installed gem
 require 'rubygems'
-require 'filewatcher'
+require 'fwatch'
 
 
 @signal = ARGV[0] == '-s' ?  "#{ARGV.shift} #{ARGV.shift}" : ''
@@ -30,7 +30,7 @@ def kill
 end
 
 
-watcher = FileWatcher.new file do
+watcher = FWatch.new file do
   kill
   
   @pid = fork do

@@ -1,4 +1,4 @@
-class FileWatcher
+class FWatch
   
   def initialize file, &block
     @file = File.new file

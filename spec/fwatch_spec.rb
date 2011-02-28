@@ -1,6 +1,6 @@
 require 'lib/filewatcher.rb'
 
-describe FileWatcher do
+describe FWatch do
   
   before(:all) do
     `touch file`
@@ -13,7 +13,7 @@ describe FileWatcher do
   it 'should throw an error when file doesn\'t exist' do
     
     lambda {
-      FileWatcher.new 'nofile' do 
+      FWatch.new 'nofile' do 
         puts 'changed'
       end
     }.should raise_error
@@ -25,7 +25,7 @@ describe FileWatcher do
     
     count = 0
     
-    watcher = FileWatcher.new 'file' do
+    watcher = FWatch.new 'file' do
       count += 1
     end
     
@@ -43,7 +43,7 @@ describe FileWatcher do
     
     count = 0
     
-    watcher = FileWatcher.new 'file' do
+    watcher = FWatch.new 'file' do
       count += 1
     end
     
@@ -59,7 +59,7 @@ describe FileWatcher do
     
     count = 0
     
-    watcher = FileWatcher.new 'file' do
+    watcher = FWatch.new 'file' do
       count += 1
     end
     
